@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Coding4fun.PainlessString</AssemblyName>
+		<RootNamespace>Coding4fun.PainlessString</RootNamespace>
+	</PropertyGroup>
+
+</Project>
