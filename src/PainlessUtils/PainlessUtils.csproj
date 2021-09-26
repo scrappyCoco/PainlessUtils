@@ -10,7 +10,7 @@
 		<Title>Painless Utils</Title>
 		<Description>Extension methods for changing case of string</Description>
 		<Copyright>Copyright ©2021 Coding4fun</Copyright>
-		<Version>1.0.0</Version>
+		<Version>1.0.1</Version>
 		
 		<PackageId>Coding4fun.PainlessUtils</PackageId>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
