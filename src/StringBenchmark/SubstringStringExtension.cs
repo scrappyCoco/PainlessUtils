@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Coding4fun.PainlessString;
+using Coding4fun.PainlessUtils;
 
 namespace StringBenchmark
 {

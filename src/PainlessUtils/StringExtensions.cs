@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Coding4fun.PainlessString
+namespace Coding4fun.PainlessUtils
 {
     public static class StringExtensions
     {

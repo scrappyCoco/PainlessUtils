@@ -1,6 +1,6 @@
 using System;
 
-namespace Coding4fun.PainlessString
+namespace Coding4fun.PainlessUtils
 {
     public static class CaseRules
     {

@@ -1,3 +1,6 @@
+[![.NET](https://github.com/scrappyCoco/PainlessUtils/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/scrappyCoco/PainlessUtils/actions/workflows/dotnet.yml)
+![Nuget](https://img.shields.io/nuget/v/Coding4fun.PainlessUtils)
+
 String extension that allows to change case to UPPER_CASE, camelCase, lowerCase, or something else.
 
 ```c#

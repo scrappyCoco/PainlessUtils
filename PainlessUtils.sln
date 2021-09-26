@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B9AC20A4-D20A-4AA7-B1B7-AD03BD24F7B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PainlessString", "src\PainlessString\PainlessString.csproj", "{52878AF1-3FAD-4F30-A4EF-FA9265CE522E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PainlessUtils", "src\PainlessUtils\PainlessUtils.csproj", "{52878AF1-3FAD-4F30-A4EF-FA9265CE522E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{2DE4EF98-B3F5-4CD1-86E1-AE957AE09F01}"
 EndProject

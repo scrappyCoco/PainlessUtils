@@ -1,4 +1,4 @@
-namespace Coding4fun.PainlessString
+namespace Coding4fun.PainlessUtils
 {
     public enum CharKind
     {

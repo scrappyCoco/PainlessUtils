@@ -1,5 +1,5 @@
 using BenchmarkDotNet.Attributes;
-using Coding4fun.PainlessString;
+using Coding4fun.PainlessUtils;
 
 namespace StringBenchmark
 {

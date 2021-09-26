@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Coding4fun.PainlessUtils;
 using NUnit.Framework;
 
 namespace Coding4fun.PainlessString.Test
