@@ -77,7 +77,9 @@ namespace Coding4fun.PainlessUtils
             TextRange[] wordRanges = sourceText.SplitWordRanges();
             if (wordRanges.Length == 0) return null;
 
-            int bufferSize = wordRanges[^1].EndOffset + (separator?.Length ?? 0) * (wordRanges.Length - 1);
+            int bufferSize = 0;
+            foreach (TextRange textRange in wordRanges) bufferSize += textRange.Length;
+            bufferSize += (separator?.Length ?? 0) * (wordRanges.Length - 1);
             char[] textBuffer = new char[bufferSize];
 
             int separatorLength = separator?.Length ?? 0;

@@ -60,7 +60,7 @@ namespace Coding4fun.PainlessString.Test
         [Test]
         public void ChangeCase()
         {
-            const string sourceText = "SourceText";
+            const string sourceText = "Source_Text";
             string? upperCase = sourceText.ChangeCase(CaseRules.ToUpperCase, "_");
             string? kebabCase = sourceText.ChangeCase(CaseRules.ToLowerCase, "-");
             string? camelCase = sourceText.ChangeCase(CaseRules.ToCamelCase, "");
