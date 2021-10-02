@@ -10,14 +10,14 @@
 		<Title>Painless Utils</Title>
 		<Description>Extension methods for changing case of string</Description>
 		<Copyright>Copyright ©2021 Coding4fun</Copyright>
-		<Version>1.0.1</Version>
+		<Version>1.0.2</Version>
 		
 		<PackageId>Coding4fun.PainlessUtils</PackageId>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<PackageProjectUrl>https://github.com/scrappyCoco/PainlessUtils</PackageProjectUrl>
 		<PackageTags>string case</PackageTags>
-		<PackageReleaseNotes>StringExtensions.ChangeCase extension has been added.</PackageReleaseNotes>
+		<PackageReleaseNotes>Bug with buffer length has been fixed.</PackageReleaseNotes>
 		<Configuration>Release</Configuration>
 	</PropertyGroup>
 
