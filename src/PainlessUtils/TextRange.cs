@@ -23,7 +23,13 @@ namespace Coding4fun.PainlessUtils
         public override bool Equals(object? obj) => obj is TextRange other && Equals(other);
 
         /// <inheritdoc />
-        public override int GetHashCode() => HashCode.Combine(Offset, Length);
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (Offset * 397) ^ Length;
+            }
+        }
 
         public static bool operator ==(TextRange left, TextRange right) => left.Equals(right);
 

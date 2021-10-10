@@ -9,7 +9,7 @@ namespace Coding4fun.PainlessUtils
         {
             if (string.IsNullOrWhiteSpace(sourceText)) return Array.Empty<TextRange>();
 
-            List<TextRange> words = new List<TextRange>(sourceText.Length / 5 + 1);
+            List<TextRange> words = new List<TextRange>(sourceText!.Length / 5 + 1);
 
             CharKind currentCharKind = CharKind.Other;
             CharKind previousCharKind = CharKind.Other;

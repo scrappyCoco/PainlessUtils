@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.1</TargetFramework>
+		<TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
 		<Nullable>enable</Nullable>
+		<LangVersion>8.0</LangVersion>
 		<AssemblyName>Coding4fun.PainlessUtils</AssemblyName>
 		<RootNamespace>Coding4fun.PainlessUtils</RootNamespace>
 		<Company>Coding4fun</Company>
@@ -10,15 +11,19 @@
 		<Title>Painless Utils</Title>
 		<Description>Extension methods for changing case of string</Description>
 		<Copyright>Copyright ©2021 Coding4fun</Copyright>
-		<Version>1.0.2</Version>
+		<Version>1.0.3</Version>
 		
 		<PackageId>Coding4fun.PainlessUtils</PackageId>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<PackageProjectUrl>https://github.com/scrappyCoco/PainlessUtils</PackageProjectUrl>
 		<PackageTags>string case</PackageTags>
-		<PackageReleaseNotes>Bug with buffer length has been fixed.</PackageReleaseNotes>
+		<PackageReleaseNotes>Support for netstandard2.0 has been added.</PackageReleaseNotes>
 		<Configuration>Release</Configuration>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="System.Memory" Version="4.5.4" Condition="'$(TargetFramework)'=='netstandard2.0'" />
+	</ItemGroup>
 
 </Project>
