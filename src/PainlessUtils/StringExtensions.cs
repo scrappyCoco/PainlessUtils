@@ -95,7 +95,7 @@ namespace Coding4fun.PainlessUtils
 
                 if (separatorLength > 0 && wordNumber + 1 != wordRanges.Length)
                 {
-                    separator!.ToCharArray().CopyTo(textBuffer.AsSpan(charNumber, separatorLength));
+                    separator!.AsSpan().CopyTo(textBuffer.AsSpan(charNumber, separatorLength));
                     charNumber += separatorLength;
                 }
             }
