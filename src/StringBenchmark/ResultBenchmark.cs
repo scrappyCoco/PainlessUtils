@@ -6,18 +6,20 @@ namespace StringBenchmark
     [MemoryDiagnoser]
     public class ResultBenchmark
     {
-        public string SampleText { get; } = "SampleText";
+        private const string SampleText = "SampleText";
+        private const string Separator = "_";
+        private readonly TextRange[] _textRanges = SampleText.SplitWordRanges();
+
+        [Benchmark(Baseline = true)]
+        public string SubStringAndStringBuilder() =>
+            StringExperiment.SubStringAndStringBuilder(_textRanges, SampleText, CaseRules.ToUpperCase, Separator);
+        
+        [Benchmark]
+        public string SpanAndStringBuilder() =>
+            StringExperiment.SpanAndStringBuilder(_textRanges, SampleText, CaseRules.ToUpperCase, Separator);
 
         [Benchmark]
-        public string Painless()
-        {
-            return SampleText.ChangeCase(CaseRules.ToUpperCase, "_");
-        }
-
-        [Benchmark]
-        public string Substring()
-        {
-            return SampleText.ToUpperCase("_");
-        }
+        public string SpanAndCharArray() =>
+            StringExperiment.SpanAndCharArray(_textRanges, SampleText, CaseRules.ToUpperCase, Separator);
     }
 }
