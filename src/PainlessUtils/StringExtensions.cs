@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 
 namespace Coding4fun.PainlessUtils
 {
     public static class StringExtensions
     {
+        private const int maxSizeInStack = 1024;
         public static TextRange[] SplitWordRanges(this string? sourceText)
         {
             if (string.IsNullOrWhiteSpace(sourceText)) return Array.Empty<TextRange>();
@@ -71,38 +73,43 @@ namespace Coding4fun.PainlessUtils
             return words.ToArray();
         }
 
-        public static string? ChangeCase(this string? sourceText, CaseRules.Rule changeCaseRule,
+        public static string? ChangeCase(this string? sourceText, CaseRules.CharTransformationRule changeCaseRule,
             string? separator = null)
         {
             TextRange[] wordRanges = sourceText.SplitWordRanges();
             if (wordRanges.Length == 0) return null;
 
-            int bufferSize = 0;
-            foreach (TextRange textRange in wordRanges) bufferSize += textRange.Length;
-            bufferSize += (separator?.Length ?? 0) * (wordRanges.Length - 1);
-            char[] textBuffer = new char[bufferSize];
-
             int separatorLength = separator?.Length ?? 0;
-
-            int charNumber = 0;
+            int bufferSize = 0;
+            int offset = 0;
+            foreach (TextRange textRange in wordRanges) bufferSize += textRange.Length;
+            bufferSize += separatorLength * (wordRanges.Length - 1);
+            
+            Span<char> textBuffer = bufferSize < maxSizeInStack
+                ? stackalloc char[bufferSize]
+                : ArrayPool<char>.Shared.Rent(bufferSize).AsSpan();
+            
             for (int wordNumber = 0; wordNumber < wordRanges.Length; wordNumber++)
             {
                 TextRange wordRange = wordRanges[wordNumber];
                 ReadOnlySpan<char> textRange = sourceText.AsSpan(wordRange.Offset, wordRange.Length);
 
-                void CharConsumer(char ch) => textBuffer[charNumber++] = ch;
-                changeCaseRule.Invoke(textRange, wordNumber, CharConsumer);
+                for (int charNumber = 0; charNumber < textRange.Length; charNumber++)
+                {
+                    char ch = textRange[charNumber];
+                    ch = changeCaseRule.Invoke(wordNumber, charNumber, ch);
+                    textBuffer[offset++] = ch;
+                }
 
                 if (separatorLength > 0 && wordNumber + 1 != wordRanges.Length)
                 {
-                    separator!.ToCharArray().CopyTo(textBuffer.AsSpan(charNumber, separatorLength));
-                    charNumber += separatorLength;
+                    separator!.ToCharArray().CopyTo(textBuffer.Slice(offset, separatorLength));
+                    offset += separatorLength;
                 }
             }
 
-            return new string(textBuffer);
+            return new string(textBuffer.ToArray());
         }
-
 
         private static CharKind GetCharKind(char ch) => char.IsUpper(ch) ? CharKind.Upper
             : char.IsLower(ch) ? CharKind.Lower

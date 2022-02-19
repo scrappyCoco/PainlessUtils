@@ -4,49 +4,24 @@ namespace Coding4fun.PainlessUtils
 {
     public static class CaseRules
     {
-        public delegate void Rule(ReadOnlySpan<char> word, int wordNumber, Action<char> consumer);
+        public delegate char CharTransformationRule(int wordNumber, int charNumber, Char ch);
 
-        public static void ToUpperCase(ReadOnlySpan<char> word, int wordNumber, Action<char> consumer)
-        {
-            foreach (char ch in word) consumer.Invoke(char.ToUpperInvariant(ch));
-        }
+        public static char ToUpperCase(int wordNumber, int charNumber, Char ch) => char.ToUpperInvariant(ch);
 
-        public static void ToLowerCase(ReadOnlySpan<char> word, int wordNumber, Action<char> consumer)
-        {
-            foreach (char ch in word) consumer.Invoke(char.ToLowerInvariant(ch));
-        }
+        public static char ToLowerCase(int wordNumber, int charNumber, Char ch) => char.ToLowerInvariant(ch);
 
-        public static void ToTitleCase(ReadOnlySpan<char> word, int wordNumber, Action<char> consumer)
-        {
-            for (int chNumber = 0; chNumber < word.Length; chNumber++)
-            {
-                char ch = word[chNumber];
-                consumer.Invoke(chNumber == 0
-                    ? char.ToUpperInvariant(ch)
-                    : char.ToLowerInvariant(ch));
-            }
-        }
+        public static char ToTitleCase(int wordNumber, int charNumber, Char ch) => charNumber == 0
+            ? char.ToUpperInvariant(ch)
+            : char.ToLowerInvariant(ch);
 
-        public static void ToCapitalizedCase(ReadOnlySpan<char> word, int wordNumber, Action<char> consumer)
-        {
-            for (int chNumber = 0; chNumber < word.Length; chNumber++)
-            {
-                char ch = word[chNumber];
-                consumer.Invoke(wordNumber == 0 && chNumber == 0
-                    ? char.ToUpperInvariant(ch)
-                    : char.ToLowerInvariant(ch));
-            }
-        }
+        public static char ToCapitalizedCase(int wordNumber, int charNumber, Char ch) =>
+            wordNumber == 0 && charNumber == 0
+                ? char.ToUpperInvariant(ch)
+                : char.ToLowerInvariant(ch);
 
-        public static void ToCamelCase(ReadOnlySpan<char> word, int wordNumber, Action<char> consumer)
-        {
-            for (int chNumber = 0; chNumber < word.Length; chNumber++)
-            {
-                char ch = word[chNumber];
-                consumer.Invoke(wordNumber > 0 && chNumber == 0
-                    ? char.ToUpperInvariant(ch)
-                    : char.ToLowerInvariant(ch));
-            }
-        }
+        public static char ToCamelCase(int wordNumber, int charNumber, Char ch) =>
+            wordNumber > 0 && charNumber == 0
+                ? char.ToUpperInvariant(ch)
+                : char.ToLowerInvariant(ch);
     }
 }
