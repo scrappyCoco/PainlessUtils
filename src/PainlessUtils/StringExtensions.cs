@@ -6,7 +6,7 @@ namespace Coding4fun.PainlessUtils
 {
     public static class StringExtensions
     {
-        private const int maxSizeInStack = 1024;
+        private const int MaxSizeInStack = 1024;
         public static TextRange[] SplitWordRanges(this string? sourceText)
         {
             if (string.IsNullOrWhiteSpace(sourceText)) return Array.Empty<TextRange>();
@@ -84,10 +84,15 @@ namespace Coding4fun.PainlessUtils
             int offset = 0;
             foreach (TextRange textRange in wordRanges) bufferSize += textRange.Length;
             bufferSize += separatorLength * (wordRanges.Length - 1);
+
+            bool isLongText = bufferSize > MaxSizeInStack;
+            char[]? arrayFromHeap = null;
+            if (isLongText)
+            {
+                arrayFromHeap = ArrayPool<char>.Shared.Rent(bufferSize);
+            }
             
-            Span<char> textBuffer = bufferSize < maxSizeInStack
-                ? stackalloc char[bufferSize]
-                : ArrayPool<char>.Shared.Rent(bufferSize).AsSpan();
+            Span<char> textBuffer = isLongText ? arrayFromHeap.AsSpan() : stackalloc char[bufferSize];
             
             for (int wordNumber = 0; wordNumber < wordRanges.Length; wordNumber++)
             {
@@ -107,8 +112,22 @@ namespace Coding4fun.PainlessUtils
                     offset += separatorLength;
                 }
             }
+            
+            string resultText;
+            unsafe
+            {
+                fixed (char* textBufferPointer = textBuffer)
+                {
+                    resultText = new string(textBufferPointer, 0, textBuffer.Length);
+                }
+            }
 
-            return new string(textBuffer.ToArray());
+            if (isLongText)
+            {
+                ArrayPool<char>.Shared.Return(arrayFromHeap);
+            }
+            
+            return resultText;
         }
 
         private static CharKind GetCharKind(char ch) => char.IsUpper(ch) ? CharKind.Upper

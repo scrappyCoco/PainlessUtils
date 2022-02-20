@@ -165,7 +165,14 @@ namespace StringBenchmark
                 }
             }
 
-            string text = new(textBuffer);
+            string text;
+            unsafe
+            {
+                fixed (char* textBufferPointer = textBuffer)
+                {
+                    text = new string(textBufferPointer, 0, textBuffer.Length);
+                }
+            }
 
             return text;
         }

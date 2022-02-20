@@ -1,9 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+		<TargetFramework>netstandard2.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<LangVersion>8.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<AssemblyName>Coding4fun.PainlessUtils</AssemblyName>
 		<RootNamespace>Coding4fun.PainlessUtils</RootNamespace>
 		<Company>Coding4fun</Company>

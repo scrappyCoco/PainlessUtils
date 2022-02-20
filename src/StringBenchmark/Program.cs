@@ -7,9 +7,7 @@ namespace StringBenchmark
     {
         public static void Main()
         {
-            //var summary = BenchmarkRunner.Run<StringBuilderVsBuffer>();
-            var summary = BenchmarkRunner.Run<ResultBenchmark>();
-            //new ResultBenchmark().SpanAndUnsafeAndByteArray();
+            var summary = BenchmarkRunner.Run<StringBenchmark>();
         }
     }
 }

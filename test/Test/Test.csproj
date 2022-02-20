@@ -1,15 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
-
+		<TargetFrameworks>net6.0;</TargetFrameworks>
 		<IsPackable>false</IsPackable>
-
 		<AssemblyName>Coding4fun.PainlessString.Test</AssemblyName>
-
 		<RootNamespace>Coding4fun.PainlessString.Test</RootNamespace>
-
 		<Nullable>enable</Nullable>
+    <LangVersion>9.0</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
