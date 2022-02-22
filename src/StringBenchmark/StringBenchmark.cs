@@ -38,5 +38,9 @@ namespace StringBenchmark
         [Benchmark]
         public string StackAlloc() =>
             StringExperiment.StackAlloc(_textRanges, SampleText, CaseRules.ToUpperCase, Separator);
+        
+        [Benchmark]
+        public string UnsafeStringModification() =>
+            StringExperiment.UnsafeStringModification(_textRanges, SampleText, CaseRules.ToUpperCase, Separator);
     }
 }

@@ -176,5 +176,45 @@ namespace StringBenchmark
 
             return text;
         }
+        
+        public static string UnsafeStringModification(TextRange[] wordRanges, string sourceText, CaseRules.CharTransformationRule changeCaseRule,
+            string? separator)
+        {
+            int bufferSize = 0;
+            int separatorLength = separator?.Length ?? 0;
+            foreach (TextRange textRange in wordRanges) bufferSize += textRange.Length;
+            bufferSize += separatorLength * (wordRanges.Length - 1);
+            int offset = 0;
+            string text = new string(char.MinValue, bufferSize);
+
+            unsafe
+            {
+                fixed (char* textPointer = text)
+                {
+                    for (int wordNumber = 0; wordNumber < wordRanges.Length; wordNumber++)
+                    {
+                        TextRange wordRange = wordRanges[wordNumber];
+                        ReadOnlySpan<char> textRange = sourceText.AsSpan(wordRange.Offset, wordRange.Length);
+
+                        for (int charNumber = 0; charNumber < textRange.Length; charNumber++)
+                        {
+                            char ch = textRange[charNumber];
+                            ch = changeCaseRule.Invoke(wordNumber, charNumber, ch);
+                            textPointer[offset++] = ch;
+                        }
+
+                        if (separatorLength > 0 && wordNumber + 1 != wordRanges.Length)
+                        {
+                            foreach (char ch in separator!)
+                            {
+                                textPointer[offset++] = ch;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return text;
+        }
     }
 }
