@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using BenchmarkDotNet.Attributes;
 using Coding4fun.PainlessUtils;
 
@@ -6,9 +7,19 @@ namespace StringBenchmark
     [MemoryDiagnoser]
     public class StringBenchmark
     {
-        private const string SampleText = "SampleTextForSimpleTest";
         private const string Separator = "_";
-        private readonly TextRange[] _textRanges = SampleText.SplitWordRanges();
+        
+        [Params("SampleTextForSimpleTest", "РусскийТекстПростоДляТеста")]
+        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+        public string SampleText { get; set; } = null!;
+
+        private TextRange[] _textRanges = null!;
+
+        [GlobalSetup]
+        public void Init()
+        {
+            _textRanges = SampleText.SplitWordRanges();
+        }
 
         [Benchmark(Baseline = true)]
         public string SubStringAndStringBuilder()
