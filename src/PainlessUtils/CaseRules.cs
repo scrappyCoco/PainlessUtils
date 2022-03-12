@@ -4,24 +4,24 @@ namespace Coding4fun.PainlessUtils
 {
     public static class CaseRules
     {
-        public delegate char CharTransformationRule(int wordNumber, int charNumber, Char ch);
+        public delegate CharKind CharTransformationRule(int wordNumber, int charNumber);
 
-        public static char ToUpperCase(int wordNumber, int charNumber, Char ch) => char.ToUpperInvariant(ch);
+        public static CharKind ToUpperCase(int wordNumber, int charNumber) => CharKind.Upper;
 
-        public static char ToLowerCase(int wordNumber, int charNumber, Char ch) => char.ToLowerInvariant(ch);
+        public static CharKind ToLowerCase(int wordNumber, int charNumber) => CharKind.Lower;
 
-        public static char ToTitleCase(int wordNumber, int charNumber, Char ch) => charNumber == 0
-            ? char.ToUpperInvariant(ch)
-            : char.ToLowerInvariant(ch);
+        public static CharKind ToTitleCase(int wordNumber, int charNumber) => charNumber == 0
+            ? CharKind.Upper
+            : CharKind.Lower;
 
-        public static char ToCapitalizedCase(int wordNumber, int charNumber, Char ch) =>
+        public static CharKind ToCapitalizedCase(int wordNumber, int charNumber) =>
             wordNumber == 0 && charNumber == 0
-                ? char.ToUpperInvariant(ch)
-                : char.ToLowerInvariant(ch);
+                ? CharKind.Upper
+                : CharKind.Lower;
 
-        public static char ToCamelCase(int wordNumber, int charNumber, Char ch) =>
+        public static CharKind ToCamelCase(int wordNumber, int charNumber) =>
             wordNumber > 0 && charNumber == 0
-                ? char.ToUpperInvariant(ch)
-                : char.ToLowerInvariant(ch);
+                ? CharKind.Upper
+                : CharKind.Lower;
     }
 }

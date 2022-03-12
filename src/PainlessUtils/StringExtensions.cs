@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Coding4fun.PainlessUtils
 {
     public static class StringExtensions
     {
         private const int MaxSizeInStack = 1024;
-        public static TextRange[] SplitWordRanges(this string? sourceText)
-        {
-            if (string.IsNullOrWhiteSpace(sourceText)) return Array.Empty<TextRange>();
 
-            List<TextRange> words = new List<TextRange>(sourceText!.Length / 5 + 1);
+        public static Range[] SplitWordRanges(this string? sourceText)
+        {
+            if (string.IsNullOrWhiteSpace(sourceText)) return Array.Empty<Range>();
+
+            List<Range> words = new List<Range>(sourceText!.Length / 5 + 1);
 
             CharKind currentCharKind = CharKind.Other;
             CharKind previousCharKind = CharKind.Other;
@@ -22,7 +24,7 @@ namespace Coding4fun.PainlessUtils
             void FlushWord()
             {
                 if (wordLength == 0) return;
-                words.Add(new TextRange(wordOffset, wordLength));
+                words.Add(new Range(wordOffset, wordLength));
             }
 
             for (; position < sourceText.Length; ++position)
@@ -76,13 +78,13 @@ namespace Coding4fun.PainlessUtils
         public static string? ChangeCase(this string? sourceText, CaseRules.CharTransformationRule changeCaseRule,
             string? separator = null)
         {
-            TextRange[] wordRanges = sourceText.SplitWordRanges();
+            Range[] wordRanges = sourceText.SplitWordRanges();
             if (wordRanges.Length == 0) return null;
 
             int separatorLength = separator?.Length ?? 0;
             int bufferSize = 0;
             int offset = 0;
-            foreach (TextRange textRange in wordRanges) bufferSize += textRange.Length;
+            foreach (Range textRange in wordRanges) bufferSize += textRange.Length;
             bufferSize += separatorLength * (wordRanges.Length - 1);
 
             bool isLongText = bufferSize > MaxSizeInStack;
@@ -91,18 +93,18 @@ namespace Coding4fun.PainlessUtils
             {
                 arrayFromHeap = ArrayPool<char>.Shared.Rent(bufferSize);
             }
-            
+
             Span<char> textBuffer = isLongText ? arrayFromHeap.AsSpan() : stackalloc char[bufferSize];
-            
+
             for (int wordNumber = 0; wordNumber < wordRanges.Length; wordNumber++)
             {
-                TextRange wordRange = wordRanges[wordNumber];
+                Range wordRange = wordRanges[wordNumber];
                 ReadOnlySpan<char> textRange = sourceText.AsSpan(wordRange.Offset, wordRange.Length);
 
                 for (int charNumber = 0; charNumber < textRange.Length; charNumber++)
                 {
                     char ch = textRange[charNumber];
-                    ch = changeCaseRule.Invoke(wordNumber, charNumber, ch);
+                    //ch = changeCaseRule.Invoke(wordNumber, charNumber, ch);
                     textBuffer[offset++] = ch;
                 }
 
@@ -112,7 +114,7 @@ namespace Coding4fun.PainlessUtils
                     offset += separatorLength;
                 }
             }
-            
+
             string resultText;
             unsafe
             {
@@ -126,13 +128,17 @@ namespace Coding4fun.PainlessUtils
             {
                 ArrayPool<char>.Shared.Return(arrayFromHeap);
             }
-            
+
             return resultText;
         }
 
-        private static CharKind GetCharKind(char ch) => char.IsUpper(ch) ? CharKind.Upper
-            : char.IsLower(ch) ? CharKind.Lower
-            : char.IsDigit(ch) ? CharKind.Digit
-            : CharKind.Other;
+        internal static CharKind GetCharKind(char ch) =>
+            char.GetUnicodeCategory(ch) switch
+            {
+                UnicodeCategory.DecimalDigitNumber => CharKind.Digit,
+                UnicodeCategory.UppercaseLetter    => CharKind.Upper,
+                UnicodeCategory.LowercaseLetter    => CharKind.Lower,
+                _                                  => CharKind.Other
+            };
     }
 }
